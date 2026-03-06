@@ -1,7 +1,12 @@
 self.__BUILD_MANIFEST = {
   "__rewrites": {
     "afterFiles": [],
-    "beforeFiles": [],
+    "beforeFiles": [
+      {
+        "source": "/souki-cpa-study//_next/:path+",
+        "destination": "/souki-cpa-study/_next/:path+"
+      }
+    ],
     "fallback": []
   },
   "sortedPages": [
