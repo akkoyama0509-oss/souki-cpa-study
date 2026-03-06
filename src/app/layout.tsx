@@ -23,14 +23,14 @@ export const viewport: Viewport = {
   maximumScale: 1,
   userScalable: false,
   viewportFit: 'cover',
-  themeColor: '#6366F1',
+  themeColor: '#F2F2F7',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className="pb-24">
-        <main className="max-w-lg mx-auto px-4">
+      <body className="pb-[88px]">
+        <main className="max-w-lg mx-auto px-5">
           {children}
         </main>
         <BottomNav />

@@ -27,93 +27,45 @@ function RecallContent() {
   const buildQueue = useCallback(() => {
     const topicId = searchParams.get('topic');
     const subjectId = searchParams.get('subject');
-
-    if (topicId) {
-      const t = topics.find(tp => tp.id === topicId);
-      return t ? [t] : [];
-    }
-
+    if (topicId) { const t = topics.find(tp => tp.id === topicId); return t ? [t] : []; }
     const dueItems = getDueTopics();
-    let dueTopics = dueItems
-      .map(d => topics.find(t => t.id === d.topicId))
-      .filter((t): t is Topic => t !== undefined);
-
-    if (subjectId) {
-      dueTopics = dueTopics.filter(t => t.subjectId === subjectId);
-    }
-
-    if (dueTopics.length === 0) {
-      return getSmartQueue(topics, subjectId ?? undefined);
-    }
-
+    let dueTopics = dueItems.map(d => topics.find(t => t.id === d.topicId)).filter((t): t is Topic => t !== undefined);
+    if (subjectId) dueTopics = dueTopics.filter(t => t.subjectId === subjectId);
+    if (dueTopics.length === 0) return getSmartQueue(topics, subjectId ?? undefined);
     return dueTopics.slice(0, SESSION_SIZE);
   }, [searchParams]);
 
-  useEffect(() => {
-    setMounted(true);
-    setQueue(buildQueue());
-  }, [buildQueue]);
-
+  useEffect(() => { setMounted(true); setQueue(buildQueue()); }, [buildQueue]);
   useEffect(() => {
     if (phase !== 'thinking') return;
     setElapsedSec(0);
-    const interval = setInterval(() => {
-      setElapsedSec(Math.floor((Date.now() - startTime) / 1000));
-    }, 1000);
+    const interval = setInterval(() => setElapsedSec(Math.floor((Date.now() - startTime) / 1000)), 1000);
     return () => clearInterval(interval);
   }, [phase, startTime]);
 
   const currentTopic = queue[currentIndex];
   const subject = currentTopic ? subjects.find(s => s.id === currentTopic.subjectId) : null;
 
-  const handleReveal = () => {
-    setPhase('revealed');
-  };
-
+  const handleReveal = () => setPhase('revealed');
   const handleRate = (rating: SelfRating) => {
     if (!currentTopic) return;
-    const elapsed = Math.round((Date.now() - startTime) / 1000);
-    recordReview(currentTopic.id, rating, elapsed);
-    setSessionStats(prev => ({
-      ...prev,
-      total: prev.total + 1,
-      [rating]: prev[rating] + 1,
-    }));
-
-    if (currentIndex < queue.length - 1) {
-      setCurrentIndex(prev => prev + 1);
-      setPhase('thinking');
-      setStartTime(Date.now());
-    } else {
-      setPhase('done');
-    }
+    recordReview(currentTopic.id, rating, Math.round((Date.now() - startTime) / 1000));
+    setSessionStats(prev => ({ ...prev, total: prev.total + 1, [rating]: prev[rating] + 1 }));
+    if (currentIndex < queue.length - 1) { setCurrentIndex(prev => prev + 1); setPhase('thinking'); setStartTime(Date.now()); }
+    else setPhase('done');
   };
 
-  if (!mounted) {
-    return (
-      <div className="py-6">
-        <div className="animate-pulse space-y-4">
-          <div className="bg-slate-200 rounded-2xl h-48" />
-          <div className="bg-slate-200 rounded-2xl h-16" />
-        </div>
-      </div>
-    );
-  }
+  if (!mounted) return <div className="pt-8"><div className="animate-pulse space-y-4"><div className="card h-48" /><div className="card h-16" /></div></div>;
 
   if (queue.length === 0) {
     const stats = getUserStats();
     return (
-      <div className="py-6 space-y-4 text-center">
-        <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
-          <p className="text-2xl mb-3">🎉</p>
-          <h2 className="text-xl font-bold text-slate-800 mb-2">復習待ちの論点がありません</h2>
-          <p className="text-sm text-slate-500 mb-6">科目一覧から新しい論点を学習しましょう</p>
-          <Link
-            href="/subjects"
-            className="inline-block bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors"
-          >
-            科目一覧へ
-          </Link>
+      <div className="pt-8 space-y-5 text-center">
+        <div className="card p-8 animate-scale-in">
+          <p className="text-[32px] mb-2">🎉</p>
+          <h2 className="text-[20px] font-bold text-[#1C1C1E] mb-1 tracking-tight">お疲れさまでした</h2>
+          <p className="text-[14px] text-[#8E8E93] mb-5">科目一覧から新しい論点を学習しましょう</p>
+          <Link href="/subjects" className="inline-block bg-[#5856D6] text-white px-6 py-3 rounded-[12px] font-semibold text-[15px] active:opacity-80 transition-opacity">科目一覧へ</Link>
         </div>
         <CharacterBubble character="gabu" message={getGabuComment(stats, 0)} />
       </div>
@@ -124,10 +76,7 @@ function RecallContent() {
     const stats = getUserStats();
     const todayStats = getTodayStudyStats();
     const nextDue = getNextDueTime();
-    const successRate = sessionStats.total > 0
-      ? Math.round((sessionStats.perfect + sessionStats.good) / sessionStats.total * 100)
-      : 0;
-
+    const successRate = sessionStats.total > 0 ? Math.round((sessionStats.perfect + sessionStats.good) / sessionStats.total * 100) : 0;
     const formatNextDue = (dueAt: string) => {
       const diff = new Date(dueAt).getTime() - Date.now();
       if (diff <= 0) return '今すぐ';
@@ -138,53 +87,43 @@ function RecallContent() {
     };
 
     return (
-      <div className="py-6 space-y-4">
-        <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center animate-slide-up">
-          <p className="text-2xl mb-3">🏆</p>
-          <h2 className="text-xl font-bold text-slate-800 mb-2">セッション完了！</h2>
-
-          {/* Today's total */}
-          <p className="text-sm text-slate-500 mb-4">
-            今日の復習: <span className="font-bold text-indigo-600">{todayStats.reviewedToday}問</span>
-            {todayStats.dueCount > 0 && <span> / あと<span className="font-bold text-blue-600">{todayStats.dueCount}問</span></span>}
+      <div className="pt-8 space-y-4">
+        <div className="card p-6 text-center animate-scale-in">
+          <p className="text-[32px] mb-2">🏆</p>
+          <h2 className="text-[20px] font-bold text-[#1C1C1E] mb-1 tracking-tight">セッション完了</h2>
+          <p className="text-[13px] text-[#8E8E93] mb-4">
+            今日の復習: <span className="font-semibold text-[#5856D6]">{todayStats.reviewedToday}問</span>
+            {todayStats.dueCount > 0 && <span> / 残り<span className="font-semibold text-[#007AFF]">{todayStats.dueCount}問</span></span>}
           </p>
 
-          {/* Rating breakdown */}
-          <div className="grid grid-cols-4 gap-2 mt-3">
-            <div className="bg-emerald-50 rounded-xl p-2">
-              <p className="text-lg font-bold text-emerald-700">{sessionStats.perfect}</p>
-              <p className="text-[10px] text-slate-500">完璧</p>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-2">
-              <p className="text-lg font-bold text-blue-700">{sessionStats.good}</p>
-              <p className="text-[10px] text-slate-500">だいたい</p>
-            </div>
-            <div className="bg-amber-50 rounded-xl p-2">
-              <p className="text-lg font-bold text-amber-700">{sessionStats.recognize}</p>
-              <p className="text-[10px] text-slate-500">見れば分かる</p>
-            </div>
-            <div className="bg-red-50 rounded-xl p-2">
-              <p className="text-lg font-bold text-red-600">{sessionStats.forgot}</p>
-              <p className="text-[10px] text-slate-500">出ない</p>
-            </div>
+          <div className="grid grid-cols-4 gap-2">
+            {[
+              { count: sessionStats.perfect, label: '完璧', color: '#34C759' },
+              { count: sessionStats.good, label: 'だいたい', color: '#007AFF' },
+              { count: sessionStats.recognize, label: '見れば', color: '#FF9500' },
+              { count: sessionStats.forgot, label: '出ない', color: '#FF3B30' },
+            ].map(item => (
+              <div key={item.label} className="rounded-xl py-2" style={{ backgroundColor: `${item.color}08` }}>
+                <p className="text-[18px] font-bold" style={{ color: item.color }}>{item.count}</p>
+                <p className="text-[10px] text-[#8E8E93]">{item.label}</p>
+              </div>
+            ))}
           </div>
 
-          {/* Success rate bar */}
           <div className="mt-4">
-            <div className="flex justify-between text-xs text-slate-500 mb-1">
+            <div className="flex justify-between text-[12px] text-[#8E8E93] mb-1.5">
               <span>想起成功率</span>
-              <span className="font-bold text-indigo-600">{successRate}%</span>
+              <span className="font-semibold text-[#5856D6]">{successRate}%</span>
             </div>
-            <div className="w-full bg-slate-200 rounded-full h-2 overflow-hidden">
-              <div className="h-full bg-indigo-500 rounded-full transition-all" style={{ width: `${successRate}%` }} />
+            <div className="w-full bg-black/[0.04] rounded-full h-[5px] overflow-hidden">
+              <div className="h-full bg-[#5856D6] rounded-full transition-all duration-700" style={{ width: `${successRate}%` }} />
             </div>
           </div>
 
-          {/* Next review estimate */}
           {nextDue && (
-            <div className="mt-4 bg-slate-50 rounded-xl p-3">
-              <p className="text-xs text-slate-500">次の復習予定</p>
-              <p className="text-sm font-bold text-slate-700">{formatNextDue(nextDue)}</p>
+            <div className="mt-4 bg-[#F2F2F7] rounded-xl p-3">
+              <p className="text-[11px] text-[#8E8E93]">次の復習予定</p>
+              <p className="text-[14px] font-semibold text-[#1C1C1E]">{formatNextDue(nextDue)}</p>
             </div>
           )}
         </div>
@@ -192,28 +131,9 @@ function RecallContent() {
         <CharacterBubble character="gabu" message={getGabuComment(stats, todayStats.dueCount)} />
         <CharacterBubble character="koyama" message={getKoyamaComment(stats, todayStats.dueCount)} />
 
-        {todayStats.dueCount > 0 && (
-          <div className="bg-blue-50 rounded-xl p-3 text-center">
-            <p className="text-xs text-blue-700">
-              今日あと <span className="font-bold">{todayStats.dueCount}問</span> 残っています
-            </p>
-          </div>
-        )}
-
         <div className="flex gap-3">
-          <Link href="/" className="flex-1 bg-white text-slate-700 text-center py-3 rounded-xl font-medium border border-slate-200 hover:bg-slate-50">
-            ホームへ
-          </Link>
-          <button
-            onClick={() => {
-              setQueue(buildQueue());
-              setCurrentIndex(0);
-              setPhase('thinking');
-              setStartTime(Date.now());
-              setSessionStats({ total: 0, perfect: 0, good: 0, recognize: 0, forgot: 0 });
-            }}
-            className="flex-1 bg-indigo-600 text-white text-center py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors"
-          >
+          <Link href="/" className="flex-1 bg-white text-[#1C1C1E] text-center py-3.5 rounded-[12px] font-medium text-[15px] active:opacity-80 transition-opacity" style={{ boxShadow: '0 1px 3px rgba(0,0,0,0.04)' }}>ホームへ</Link>
+          <button onClick={() => { setQueue(buildQueue()); setCurrentIndex(0); setPhase('thinking'); setStartTime(Date.now()); setSessionStats({ total: 0, perfect: 0, good: 0, recognize: 0, forgot: 0 }); }} className="flex-1 bg-[#5856D6] text-white text-center py-3.5 rounded-[12px] font-medium text-[15px] active:opacity-80 transition-opacity">
             もう10問やる
           </button>
         </div>
@@ -222,133 +142,107 @@ function RecallContent() {
   }
 
   return (
-    <div className="py-6 space-y-4">
-      {/* Progress */}
-      <div className="flex items-center justify-between text-sm text-slate-500">
-        <button onClick={() => router.back()} className="text-slate-400 hover:text-slate-600">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={1.5}>
+    <div className="pt-4 space-y-4">
+      <div className="flex items-center justify-between text-[14px] text-[#8E8E93]">
+        <button onClick={() => router.back()} className="text-[#5856D6] p-1">
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
           </svg>
         </button>
-        <span>{currentIndex + 1} / {queue.length}</span>
+        <span className="font-medium">{currentIndex + 1} / {queue.length}</span>
       </div>
 
-      <div className="w-full bg-slate-200 rounded-full h-1.5 overflow-hidden">
-        <div className="h-full bg-indigo-500 rounded-full transition-all duration-300" style={{ width: `${((currentIndex + 1) / queue.length) * 100}%` }} />
+      <div className="w-full bg-black/[0.04] rounded-full h-1 overflow-hidden">
+        <div className="h-full bg-[#5856D6] rounded-full transition-all duration-500" style={{ width: `${((currentIndex + 1) / queue.length) * 100}%` }} />
       </div>
 
-      {/* Topic Card */}
-      <div className="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden animate-fade-in" key={currentTopic.id}>
-        {/* Subject tag */}
-        <div className="px-4 pt-4">
-          <span className="text-xs font-medium px-2 py-0.5 rounded-full text-white" style={{ backgroundColor: subject?.color }}>
-            {subject?.shortName}
-          </span>
+      <div className="card overflow-hidden animate-fade-in" key={currentTopic.id}>
+        <div className="px-5 pt-5">
+          <span className="text-[11px] font-semibold px-2.5 py-1 rounded-full text-white" style={{ backgroundColor: subject?.color }}>{subject?.shortName}</span>
         </div>
 
-        {/* Prompt (main) + Title (supplementary) */}
-        <div className="p-6 text-center">
-          <p className="text-xs text-slate-400 mb-2">{currentTopic.title}</p>
-          <div className="text-left">
+        <div className="p-5 pt-4">
+          <p className="text-[12px] text-[#AEAEB2] mb-2">{currentTopic.title}</p>
+          <div>
             {currentTopic.prompt.split('\n').map((line, i) => (
-              <p key={i} className="text-[15px] font-bold text-slate-800 leading-relaxed">{line}</p>
+              <p key={i} className="text-[15px] font-semibold text-[#1C1C1E] leading-relaxed">{line}</p>
             ))}
           </div>
+
           {phase === 'thinking' && (
-            <>
-              <p className="text-xl font-mono font-bold text-indigo-500 mt-4">
+            <div className="mt-5 text-center">
+              <p className="text-[24px] font-mono font-bold text-[#5856D6] tabular-nums">
                 {Math.floor(elapsedSec / 60).toString().padStart(2, '0')}:{(elapsedSec % 60).toString().padStart(2, '0')}
               </p>
 
-              {/* Hint after 30 seconds */}
               {elapsedSec >= 30 && (
-                <div className="mt-4 text-left bg-amber-50 rounded-xl p-3 border border-amber-100 animate-fade-in">
-                  <p className="text-[10px] font-semibold text-amber-600 mb-1">ヒント</p>
-                  <p className="text-xs text-amber-800">{currentTopic.gabuComment}</p>
+                <div className="mt-4 text-left bg-[#FF9500]/[0.06] rounded-xl p-3.5 animate-fade-in">
+                  <p className="text-[11px] font-semibold text-[#FF9500] mb-1">ヒント</p>
+                  <p className="text-[13px] text-[#1C1C1E]/70 leading-relaxed">{currentTopic.gabuComment}</p>
                   {elapsedSec >= 45 && (
-                    <div className="flex flex-wrap gap-1 mt-2">
+                    <div className="flex flex-wrap gap-1.5 mt-2">
                       {currentTopic.keywords.slice(0, 2).map(kw => (
-                        <span key={kw} className="bg-amber-100 text-amber-700 text-[10px] px-2 py-0.5 rounded-full">{kw}</span>
+                        <span key={kw} className="bg-[#FF9500]/[0.12] text-[#FF9500] text-[11px] px-2 py-0.5 rounded-full font-medium">{kw}</span>
                       ))}
                     </div>
                   )}
                 </div>
               )}
 
-              {elapsedSec < 30 && (
-                <p className="text-xs text-slate-400 mt-2">頭の中で答案骨格を組み立ててください...</p>
-              )}
-            </>
+              {elapsedSec < 30 && <p className="text-[13px] text-[#AEAEB2] mt-2">答案骨格を組み立てましょう...</p>}
+            </div>
           )}
         </div>
 
-        {/* Reveal */}
         {phase === 'thinking' && (
-          <div className="px-6 pb-6">
-            <button
-              onClick={handleReveal}
-              className="w-full bg-slate-100 text-slate-700 py-4 rounded-xl font-medium hover:bg-slate-200 transition-colors text-sm"
-            >
-              答えを見る
-            </button>
+          <div className="px-5 pb-5">
+            <button onClick={handleReveal} className="w-full bg-[#F2F2F7] text-[#1C1C1E] py-[14px] rounded-[12px] font-medium text-[15px] active:bg-[#E5E5EA] transition-colors">答えを見る</button>
           </div>
         )}
 
-        {/* Answer */}
         {phase === 'revealed' && (
-          <div className="px-6 pb-6 space-y-4 animate-slide-up">
-            {/* Summary */}
-            <div className="bg-slate-50 rounded-xl p-4">
-              <p className="text-xs font-semibold text-slate-500 mb-1">要約</p>
-              <p className="text-sm text-slate-700 leading-relaxed">{currentTopic.summary}</p>
+          <div className="px-5 pb-5 space-y-4 animate-slide-up">
+            <div className="bg-[#F2F2F7] rounded-xl p-4">
+              <p className="text-[11px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-1">要約</p>
+              <p className="text-[14px] text-[#1C1C1E] leading-relaxed">{currentTopic.summary}</p>
             </div>
 
-            {/* Answer Framework */}
-            <div className="bg-indigo-50 rounded-xl p-4">
-              <p className="text-xs font-semibold text-indigo-700 mb-2">答案骨格</p>
-              <ol className="space-y-1.5">
+            <div className="bg-[#5856D6]/[0.05] rounded-xl p-4">
+              <p className="text-[11px] font-semibold text-[#5856D6] uppercase tracking-wider mb-2">答案骨格</p>
+              <ol className="space-y-2">
                 {currentTopic.answerFramework.map((step, i) => (
-                  <li key={i} className="flex gap-2 text-sm text-indigo-900">
-                    <span className="shrink-0 text-xs text-indigo-500 font-bold mt-0.5">{i + 1}.</span>
-                    <span>{step}</span>
+                  <li key={i} className="flex gap-2 text-[13px] text-[#1C1C1E]">
+                    <span className="shrink-0 text-[11px] text-[#5856D6] font-bold mt-0.5">{i + 1}.</span>
+                    <span className="leading-relaxed">{step}</span>
                   </li>
                 ))}
               </ol>
             </div>
 
-            {/* Keywords */}
             <div className="flex flex-wrap gap-1.5">
               {currentTopic.keywords.map(kw => (
-                <span key={kw} className="bg-slate-100 text-slate-600 text-xs px-2 py-0.5 rounded-full">{kw}</span>
+                <span key={kw} className="bg-[#F2F2F7] text-[#636366] text-[12px] px-2.5 py-0.5 rounded-full">{kw}</span>
               ))}
             </div>
 
-            {/* Character comments */}
             <div className="flex gap-2">
-              <div className="flex-1 bg-amber-50 rounded-xl p-3 border border-amber-100">
-                <p className="text-[10px] font-semibold text-amber-700 mb-0.5">ガブ</p>
-                <p className="text-xs text-amber-900 leading-relaxed">{currentTopic.gabuComment}</p>
+              <div className="flex-1 bg-[#FF9500]/[0.06] rounded-xl p-3">
+                <p className="text-[10px] font-semibold text-[#FF9500] mb-0.5">ガブ</p>
+                <p className="text-[12px] text-[#1C1C1E]/70 leading-relaxed">{currentTopic.gabuComment}</p>
               </div>
-              <div className="flex-1 bg-slate-50 rounded-xl p-3 border border-slate-200">
-                <p className="text-[10px] font-semibold text-slate-600 mb-0.5">小山</p>
-                <p className="text-xs text-slate-800 leading-relaxed">{currentTopic.koyamaComment}</p>
+              <div className="flex-1 bg-black/[0.03] rounded-xl p-3">
+                <p className="text-[10px] font-semibold text-[#636366] mb-0.5">小山</p>
+                <p className="text-[12px] text-[#1C1C1E]/70 leading-relaxed">{currentTopic.koyamaComment}</p>
               </div>
             </div>
 
-            {/* Rating buttons */}
-            <div className="space-y-2 pt-2">
-              <p className="text-xs text-slate-500 text-center">想起できましたか？</p>
-              <div className="grid grid-cols-2 gap-2">
-                <RatingButton rating="perfect" label="完璧に言えた" color="bg-emerald-500" onClick={handleRate} />
-                <RatingButton rating="good" label="だいたい言えた" color="bg-blue-500" onClick={handleRate} />
-                <RatingButton rating="recognize" label="見ればわかる" color="bg-amber-500" onClick={handleRate} />
-                <RatingButton rating="forgot" label="全然出ない" color="bg-red-500" onClick={handleRate} />
-              </div>
-              <div className="grid grid-cols-2 gap-2 text-center text-[10px] text-slate-400 -mt-1">
-                <span>+20 XP / 7日後</span>
-                <span>+10 XP / 3日後</span>
-                <span>+5 XP / 1日後</span>
-                <span>+2 XP / 6時間後</span>
+            <div className="pt-1">
+              <p className="text-[12px] text-[#8E8E93] text-center mb-2.5">想起できましたか？</p>
+              <div className="grid grid-cols-2 gap-2.5">
+                <RatingButton rating="perfect" label="完璧に言えた" color="#34C759" sub="+20 XP" onClick={handleRate} />
+                <RatingButton rating="good" label="だいたい言えた" color="#007AFF" sub="+10 XP" onClick={handleRate} />
+                <RatingButton rating="recognize" label="見ればわかる" color="#FF9500" sub="+5 XP" onClick={handleRate} />
+                <RatingButton rating="forgot" label="全然出ない" color="#FF3B30" sub="+2 XP" onClick={handleRate} />
               </div>
             </div>
           </div>
@@ -358,20 +252,22 @@ function RecallContent() {
   );
 }
 
-function RatingButton({ rating, label, color, onClick }: { rating: SelfRating; label: string; color: string; onClick: (r: SelfRating) => void }) {
+function RatingButton({ rating, label, color, sub, onClick }: { rating: SelfRating; label: string; color: string; sub: string; onClick: (r: SelfRating) => void }) {
   return (
     <button
       onClick={() => onClick(rating)}
-      className={`${color} text-white py-3.5 rounded-xl font-medium text-sm transition-opacity active:opacity-80 active:scale-[0.97]`}
+      className="py-3.5 rounded-[12px] font-medium text-[14px] text-white active:opacity-80 transition-opacity"
+      style={{ backgroundColor: color }}
     >
-      {label}
+      <span className="block">{label}</span>
+      <span className="block text-[10px] opacity-70 mt-0.5">{sub}</span>
     </button>
   );
 }
 
 export default function RecallPage() {
   return (
-    <Suspense fallback={<div className="py-6"><div className="animate-pulse bg-slate-200 rounded-2xl h-48" /></div>}>
+    <Suspense fallback={<div className="pt-8"><div className="animate-pulse card h-48" /></div>}>
       <RecallContent />
     </Suspense>
   );

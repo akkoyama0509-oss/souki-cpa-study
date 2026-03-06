@@ -5,8 +5,8 @@
   "start_url": "/souki-cpa-study/",
   "scope": "/souki-cpa-study/",
   "display": "standalone",
-  "background_color": "#F8FAFC",
-  "theme_color": "#6366F1",
+  "background_color": "#F2F2F7",
+  "theme_color": "#5856D6",
   "icons": [
     {
       "src": "/souki-cpa-study/icon-192.png",

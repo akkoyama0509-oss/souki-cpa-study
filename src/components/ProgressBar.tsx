@@ -5,14 +5,14 @@ interface ProgressBarProps {
   size?: 'sm' | 'md';
 }
 
-export default function ProgressBar({ value, max, color = 'bg-indigo-500', size = 'sm' }: ProgressBarProps) {
+export default function ProgressBar({ value, max, color = 'bg-[#5856D6]', size = 'sm' }: ProgressBarProps) {
   const percent = max > 0 ? Math.min((value / max) * 100, 100) : 0;
-  const height = size === 'sm' ? 'h-2' : 'h-3';
+  const height = size === 'sm' ? 'h-[5px]' : 'h-2';
 
   return (
-    <div className={`w-full bg-slate-200 rounded-full ${height} overflow-hidden`}>
+    <div className={`w-full bg-black/[0.04] rounded-full ${height} overflow-hidden`}>
       <div
-        className={`${height} ${color} rounded-full transition-all duration-500 ease-out`}
+        className={`${height} ${color} rounded-full transition-all duration-700 ease-out`}
         style={{ width: `${percent}%` }}
       />
     </div>
