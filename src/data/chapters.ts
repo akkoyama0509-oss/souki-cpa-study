@@ -1,0 +1,83 @@
+import { Chapter } from '@/types';
+
+export const chapters: Chapter[] = [
+  // 財務諸表論
+  { id: 'fin-1', subjectId: 'financial', title: '財務会計の基礎概念', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'fin-1-1', subjectId: 'financial', title: '財務会計の機能と制度', parentId: 'fin-1', depth: 1, displayOrder: 1 },
+  { id: 'fin-1-2', subjectId: 'financial', title: '会計公準と会計主体論', parentId: 'fin-1', depth: 1, displayOrder: 2 },
+  { id: 'fin-2', subjectId: 'financial', title: '損益計算', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'fin-2-1', subjectId: 'financial', title: '収益認識', parentId: 'fin-2', depth: 1, displayOrder: 1 },
+  { id: 'fin-2-2', subjectId: 'financial', title: '費用認識と対応原則', parentId: 'fin-2', depth: 1, displayOrder: 2 },
+  { id: 'fin-3', subjectId: 'financial', title: '資産会計', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'fin-3-1', subjectId: 'financial', title: '棚卸資産', parentId: 'fin-3', depth: 1, displayOrder: 1 },
+  { id: 'fin-3-2', subjectId: 'financial', title: '固定資産と減損', parentId: 'fin-3', depth: 1, displayOrder: 2 },
+  { id: 'fin-4', subjectId: 'financial', title: '負債・純資産会計', parentId: null, depth: 0, displayOrder: 4 },
+  { id: 'fin-4-1', subjectId: 'financial', title: '引当金', parentId: 'fin-4', depth: 1, displayOrder: 1 },
+  { id: 'fin-4-2', subjectId: 'financial', title: '純資産の部', parentId: 'fin-4', depth: 1, displayOrder: 2 },
+  { id: 'fin-5', subjectId: 'financial', title: '特殊論点', parentId: null, depth: 0, displayOrder: 5 },
+  { id: 'fin-5-1', subjectId: 'financial', title: '金融商品', parentId: 'fin-5', depth: 1, displayOrder: 1 },
+  { id: 'fin-5-2', subjectId: 'financial', title: '退職給付', parentId: 'fin-5', depth: 1, displayOrder: 2 },
+  { id: 'fin-5-3', subjectId: 'financial', title: '税効果会計', parentId: 'fin-5', depth: 1, displayOrder: 3 },
+  { id: 'fin-5-4', subjectId: 'financial', title: '連結会計', parentId: 'fin-5', depth: 1, displayOrder: 4 },
+  { id: 'fin-6', subjectId: 'financial', title: '概念フレームワーク', parentId: null, depth: 0, displayOrder: 6 },
+  { id: 'fin-6-1', subjectId: 'financial', title: '概念フレームワークの意義と構造', parentId: 'fin-6', depth: 1, displayOrder: 1 },
+
+  // 管理会計論（理論）
+  { id: 'mgmt-1', subjectId: 'management', title: '原価計算の基礎', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'mgmt-1-1', subjectId: 'management', title: '原価計算の目的と種類', parentId: 'mgmt-1', depth: 1, displayOrder: 1 },
+  { id: 'mgmt-2', subjectId: 'management', title: '管理会計の基礎', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'mgmt-2-1', subjectId: 'management', title: '意思決定会計', parentId: 'mgmt-2', depth: 1, displayOrder: 1 },
+  { id: 'mgmt-2-2', subjectId: 'management', title: '業績管理会計', parentId: 'mgmt-2', depth: 1, displayOrder: 2 },
+  { id: 'mgmt-3', subjectId: 'management', title: '戦略的管理会計', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'mgmt-3-1', subjectId: 'management', title: 'ABCとABM', parentId: 'mgmt-3', depth: 1, displayOrder: 1 },
+  { id: 'mgmt-3-2', subjectId: 'management', title: 'BSCと戦略マップ', parentId: 'mgmt-3', depth: 1, displayOrder: 2 },
+
+  // 監査論
+  { id: 'aud-1', subjectId: 'audit', title: '監査の基礎概念', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'aud-1-1', subjectId: 'audit', title: '財務諸表監査の意義と目的', parentId: 'aud-1', depth: 1, displayOrder: 1 },
+  { id: 'aud-1-2', subjectId: 'audit', title: '監査基準の体系', parentId: 'aud-1', depth: 1, displayOrder: 2 },
+  { id: 'aud-2', subjectId: 'audit', title: '監査の実施', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'aud-2-1', subjectId: 'audit', title: 'リスク・アプローチ', parentId: 'aud-2', depth: 1, displayOrder: 1 },
+  { id: 'aud-2-2', subjectId: 'audit', title: '監査証拠と監査手続', parentId: 'aud-2', depth: 1, displayOrder: 2 },
+  { id: 'aud-3', subjectId: 'audit', title: '監査報告', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'aud-3-1', subjectId: 'audit', title: '監査意見の類型', parentId: 'aud-3', depth: 1, displayOrder: 1 },
+  { id: 'aud-3-2', subjectId: 'audit', title: '継続企業の前提', parentId: 'aud-3', depth: 1, displayOrder: 2 },
+  { id: 'aud-4', subjectId: 'audit', title: '品質管理と倫理', parentId: null, depth: 0, displayOrder: 4 },
+  { id: 'aud-4-1', subjectId: 'audit', title: '監査事務所の品質管理', parentId: 'aud-4', depth: 1, displayOrder: 1 },
+  { id: 'aud-4-2', subjectId: 'audit', title: '職業倫理と独立性', parentId: 'aud-4', depth: 1, displayOrder: 2 },
+
+  // 企業法
+  { id: 'corp-1', subjectId: 'corporate', title: '会社法総論', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'corp-1-1', subjectId: 'corporate', title: '会社の種類と設立', parentId: 'corp-1', depth: 1, displayOrder: 1 },
+  { id: 'corp-2', subjectId: 'corporate', title: '株式', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'corp-2-1', subjectId: 'corporate', title: '株式の意義と種類', parentId: 'corp-2', depth: 1, displayOrder: 1 },
+  { id: 'corp-2-2', subjectId: 'corporate', title: '株式の譲渡', parentId: 'corp-2', depth: 1, displayOrder: 2 },
+  { id: 'corp-3', subjectId: 'corporate', title: '機関', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'corp-3-1', subjectId: 'corporate', title: '株主総会', parentId: 'corp-3', depth: 1, displayOrder: 1 },
+  { id: 'corp-3-2', subjectId: 'corporate', title: '取締役と取締役会', parentId: 'corp-3', depth: 1, displayOrder: 2 },
+  { id: 'corp-3-3', subjectId: 'corporate', title: '監査役と会計監査人', parentId: 'corp-3', depth: 1, displayOrder: 3 },
+  { id: 'corp-4', subjectId: 'corporate', title: '資金調達と組織再編', parentId: null, depth: 0, displayOrder: 4 },
+  { id: 'corp-4-1', subjectId: 'corporate', title: '新株発行と社債', parentId: 'corp-4', depth: 1, displayOrder: 1 },
+  { id: 'corp-4-2', subjectId: 'corporate', title: '組織再編', parentId: 'corp-4', depth: 1, displayOrder: 2 },
+
+  // 租税法（理論）
+  { id: 'tax-1', subjectId: 'tax', title: '法人税法', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'tax-1-1', subjectId: 'tax', title: '益金と損金の概念', parentId: 'tax-1', depth: 1, displayOrder: 1 },
+  { id: 'tax-1-2', subjectId: 'tax', title: '受取配当等の益金不算入', parentId: 'tax-1', depth: 1, displayOrder: 2 },
+  { id: 'tax-1-3', subjectId: 'tax', title: '減価償却と引当金', parentId: 'tax-1', depth: 1, displayOrder: 3 },
+  { id: 'tax-2', subjectId: 'tax', title: '所得税法', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'tax-2-1', subjectId: 'tax', title: '所得の分類と計算', parentId: 'tax-2', depth: 1, displayOrder: 1 },
+  { id: 'tax-3', subjectId: 'tax', title: '消費税法', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'tax-3-1', subjectId: 'tax', title: '課税の仕組みと非課税取引', parentId: 'tax-3', depth: 1, displayOrder: 1 },
+
+  // 経営学（理論）
+  { id: 'biz-1', subjectId: 'business', title: '経営戦略論', parentId: null, depth: 0, displayOrder: 1 },
+  { id: 'biz-1-1', subjectId: 'business', title: '競争戦略', parentId: 'biz-1', depth: 1, displayOrder: 1 },
+  { id: 'biz-1-2', subjectId: 'business', title: '全社戦略と多角化', parentId: 'biz-1', depth: 1, displayOrder: 2 },
+  { id: 'biz-2', subjectId: 'business', title: '組織論', parentId: null, depth: 0, displayOrder: 2 },
+  { id: 'biz-2-1', subjectId: 'business', title: '組織構造とデザイン', parentId: 'biz-2', depth: 1, displayOrder: 1 },
+  { id: 'biz-2-2', subjectId: 'business', title: 'モチベーション理論', parentId: 'biz-2', depth: 1, displayOrder: 2 },
+  { id: 'biz-2-3', subjectId: 'business', title: 'リーダーシップ理論', parentId: 'biz-2', depth: 1, displayOrder: 3 },
+  { id: 'biz-3', subjectId: 'business', title: 'ファイナンス理論', parentId: null, depth: 0, displayOrder: 3 },
+  { id: 'biz-3-1', subjectId: 'business', title: 'ポートフォリオ理論とCAPM', parentId: 'biz-3', depth: 1, displayOrder: 1 },
+];
