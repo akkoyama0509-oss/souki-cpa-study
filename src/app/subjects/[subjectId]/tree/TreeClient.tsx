@@ -109,7 +109,7 @@ function ChapterNode({
   const hasContent = children.length > 0 || chapterTopics.length > 0;
 
   return (
-    <div style={{ paddingLeft: `${chapter.depth * 16}px` }}>
+    <div className="overflow-hidden" style={{ paddingLeft: `${chapter.depth * 12}px` }}>
       <button
         onClick={() => hasContent && toggleExpand(chapter.id)}
         className={`w-full flex items-center gap-2 p-3 rounded-xl text-left transition-colors ${
@@ -155,7 +155,7 @@ function ChapterNode({
           {chapterTopics.map(t => {
             const status = mounted ? getTopicStatus(t.id) : 'new' as const;
             return (
-              <div key={t.id} className="flex items-center gap-1 ml-6">
+              <div key={t.id} className="flex items-center gap-1 ml-4">
                 <Link
                   href={`/topics/${t.id}`}
                   className="flex items-center gap-2 py-2 px-3 rounded-lg hover:bg-indigo-50 transition-colors flex-1 min-w-0"

@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className="pb-20">
+      <body className="pb-24">
         <main className="max-w-lg mx-auto px-4">
           {children}
         </main>

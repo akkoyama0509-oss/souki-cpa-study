@@ -362,7 +362,7 @@ function RatingButton({ rating, label, color, onClick }: { rating: SelfRating; l
   return (
     <button
       onClick={() => onClick(rating)}
-      className={`${color} text-white py-3 rounded-xl font-medium text-sm hover:opacity-90 transition-opacity active:scale-[0.97]`}
+      className={`${color} text-white py-3.5 rounded-xl font-medium text-sm transition-opacity active:opacity-80 active:scale-[0.97]`}
     >
       {label}
     </button>
