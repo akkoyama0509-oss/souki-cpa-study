@@ -46,34 +46,30 @@ export default function TreeClient() {
       case 'mastered': return 'bg-[#34C759]';
       case 'weak': return 'bg-[#FF3B30]';
       case 'due': return 'bg-[#007AFF]';
-      default: return 'bg-[#C7C7CC]';
+      default: return 'bg-[#D1D1D6]';
     }
   };
 
   return (
-    <div className="pt-4 pb-4 space-y-4">
+    <div className="pt-5 pb-6 space-y-4">
       <div className="flex items-center gap-3">
-        <Link href={`/subjects/${subjectId}`} className="text-[#5856D6]">
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2}>
+        <Link href={`/subjects/${subjectId}`} className="text-[#5856D6] pressable p-1">
+          <svg className="w-[22px] h-[22px]" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.2}>
             <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5L8.25 12l7.5-7.5" />
           </svg>
         </Link>
         <div>
-          <h1 className="text-[20px] font-bold text-[#1C1C1E] tracking-tight">{subject.name}</h1>
-          <p className="text-[12px] text-[#8E8E93]">目次ツリー</p>
+          <h1 className="text-[22px] font-bold text-[#1C1C1E] tracking-tight">{subject.name}</h1>
+          <p className="text-[13px] text-[#8E8E93] font-medium">目次ツリー</p>
         </div>
       </div>
 
       <div className="flex gap-2">
-        <button onClick={expandAll} className="text-[13px] bg-white px-3.5 py-[6px] rounded-lg text-[#8E8E93] active:opacity-80" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-          すべて展開
-        </button>
-        <button onClick={collapseAll} className="text-[13px] bg-white px-3.5 py-[6px] rounded-lg text-[#8E8E93] active:opacity-80" style={{ boxShadow: '0 1px 2px rgba(0,0,0,0.04)' }}>
-          すべて折りたたみ
-        </button>
+        <button onClick={expandAll} className="pill pill-inactive">すべて展開</button>
+        <button onClick={collapseAll} className="pill pill-inactive">すべて折りたたみ</button>
       </div>
 
-      <div className="space-y-1">
+      <div className="space-y-1.5">
         {rootChapters.map(ch => (
           <ChapterNode key={ch.id} chapter={ch} expanded={expanded} toggleExpand={toggleExpand} getChildChapters={getChildChapters} getChapterTopics={getChapterTopics} statusColor={statusColor} mounted={mounted} />
         ))}
@@ -93,12 +89,12 @@ function ChapterNode({ chapter, expanded, toggleExpand, getChildChapters, getCha
   const hasContent = children.length > 0 || chapterTopics.length > 0;
 
   return (
-    <div className="overflow-hidden" style={{ paddingLeft: `${chapter.depth * 12}px` }}>
+    <div style={{ paddingLeft: `${chapter.depth * 14}px` }}>
       <button
         onClick={() => hasContent && toggleExpand(chapter.id)}
-        className={`w-full flex items-center gap-2 p-3 rounded-xl text-left transition-colors ${
-          chapter.depth === 0 ? 'card font-semibold text-[14px]' : 'bg-[#F2F2F7] text-[13px] font-medium'
-        }`}
+        className={`w-full flex items-center gap-2.5 p-3.5 rounded-xl text-left transition-all duration-200 ${
+          chapter.depth === 0 ? 'card font-semibold text-[15px]' : 'card-inset text-[14px] font-medium'
+        } pressable`}
       >
         {hasContent && (
           <svg className={`w-3.5 h-3.5 shrink-0 text-[#C7C7CC] transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
@@ -109,7 +105,7 @@ function ChapterNode({ chapter, expanded, toggleExpand, getChildChapters, getCha
         <span className="flex-1 text-[#1C1C1E]">{chapter.title}</span>
         {mounted && chapterTopics.length > 0 && (() => {
           const masteredCount = chapterTopics.filter(t => getTopicStatus(t.id) === 'mastered').length;
-          return <span className="text-[11px] text-[#AEAEB2]">{masteredCount}/{chapterTopics.length}</span>;
+          return <span className="text-[12px] text-[#AEAEB2] font-medium tabular-nums">{masteredCount}/{chapterTopics.length}</span>;
         })()}
       </button>
 
@@ -121,14 +117,14 @@ function ChapterNode({ chapter, expanded, toggleExpand, getChildChapters, getCha
           {chapterTopics.map(t => {
             const status = mounted ? getTopicStatus(t.id) : 'new' as const;
             return (
-              <div key={t.id} className="flex items-center gap-1 ml-4">
-                <Link href={`/topics/${t.id}`} className="flex items-center gap-2 py-2 px-3 rounded-lg active:bg-[#5856D6]/[0.06] transition-colors flex-1 min-w-0">
+              <div key={t.id} className="flex items-center gap-1 ml-5">
+                <Link href={`/topics/${t.id}`} className="flex items-center gap-2.5 py-2.5 px-3.5 rounded-xl pressable flex-1 min-w-0">
                   <span className={`w-2 h-2 rounded-full shrink-0 ${statusColor(status)}`} />
-                  <span className="text-[13px] text-[#1C1C1E] flex-1 truncate">{t.title}</span>
+                  <span className="text-[14px] text-[#1C1C1E] flex-1 truncate">{t.title}</span>
                   <StatusBadge status={status} />
                 </Link>
-                <Link href={`/recall?topic=${t.id}`} className="shrink-0 p-2 rounded-lg text-[#5856D6] active:bg-[#5856D6]/[0.06]" title="想起">
-                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
+                <Link href={`/recall?topic=${t.id}`} className="shrink-0 p-2.5 rounded-xl text-[#5856D6] pressable" title="想起">
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5.25 5.653c0-.856.917-1.398 1.667-.986l11.54 6.347a1.125 1.125 0 010 1.972l-11.54 6.347a1.125 1.125 0 01-1.667-.986V5.653z" />
                   </svg>
                 </Link>

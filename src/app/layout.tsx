@@ -3,8 +3,8 @@ import './globals.css';
 import BottomNav from '@/components/BottomNav';
 
 export const metadata: Metadata = {
-  title: 'ソウキ - 公認会計士論文式試験 想起学習アプリ',
-  description: '目次学習・想起学習・答案骨格の再生を支援する公認会計士論文式試験対策アプリ',
+  title: 'SOUKI - CPA Essay Recall',
+  description: '公認会計士論文式試験の想起学習アプリ',
   manifest: '/souki-cpa-study/manifest.json',
   icons: {
     icon: '/souki-cpa-study/favicon.ico',
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: 'default',
-    title: 'ソウキ',
+    title: 'SOUKI',
   },
 };
 
@@ -29,7 +29,7 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ja">
-      <body className="pb-[88px]">
+      <body className="pb-[92px]">
         <main className="max-w-lg mx-auto px-5">
           {children}
         </main>

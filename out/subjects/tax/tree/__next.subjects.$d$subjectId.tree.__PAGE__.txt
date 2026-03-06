@@ -1,6 +1,6 @@
 1:"$Sreact.fragment"
-2:I[23312,["/souki-cpa-study/_next/static/chunks/d48faf4b51523537.js","/souki-cpa-study/_next/static/chunks/56991554919bae76.js","/souki-cpa-study/_next/static/chunks/72761a17b61ebee3.js"],"default"]
+2:I[23312,["/souki-cpa-study/_next/static/chunks/05e80742d81f9d59.js","/souki-cpa-study/_next/static/chunks/fa0562f83cdfca3d.js","/souki-cpa-study/_next/static/chunks/72761a17b61ebee3.js"],"default"]
 3:I[97367,["/souki-cpa-study/_next/static/chunks/ff1a16fafef87110.js","/souki-cpa-study/_next/static/chunks/d2be314c3ece3fbe.js"],"OutletBoundary"]
 4:"$Sreact.suspense"
-0:{"buildId":"2e-vSk-lalz8Wt7Y_ZNJj","rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/souki-cpa-study/_next/static/chunks/56991554919bae76.js","async":true}],["$","script","script-1",{"src":"/souki-cpa-study/_next/static/chunks/72761a17b61ebee3.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
+0:{"buildId":"o1flHoT2hj9mWJ3ljbfLc","rsc":["$","$1","c",{"children":[["$","$L2",null,{}],[["$","script","script-0",{"src":"/souki-cpa-study/_next/static/chunks/fa0562f83cdfca3d.js","async":true}],["$","script","script-1",{"src":"/souki-cpa-study/_next/static/chunks/72761a17b61ebee3.js","async":true}]],["$","$L3",null,{"children":["$","$4",null,{"name":"Next.MetadataOutlet","children":"$@5"}]}]]}],"loading":null,"isPartial":false}
 5:null

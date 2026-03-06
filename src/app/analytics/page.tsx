@@ -14,9 +14,9 @@ export default function AnalyticsPage() {
   useEffect(() => setMounted(true), []);
 
   if (!mounted) return (
-    <div className="pt-8 space-y-5">
-      <h1 className="text-[28px] font-bold text-[#1C1C1E] tracking-tight">学習分析</h1>
-      <div className="animate-pulse space-y-4">{[1,2,3].map(i => <div key={i} className="card h-32" />)}</div>
+    <div className="pt-[52px] space-y-5">
+      <h1 className="text-[34px] font-bold text-[#1C1C1E] tracking-tight">分析</h1>
+      <div className="space-y-4">{[1,2,3].map(i => <div key={i} className="card h-32 animate-shimmer rounded-2xl" />)}</div>
     </div>
   );
 
@@ -39,9 +39,10 @@ export default function AnalyticsPage() {
   const heatmapData = buildHeatmap(logs);
 
   return (
-    <div className="pt-8 pb-4 space-y-5">
-      <h1 className="text-[28px] font-bold text-[#1C1C1E] tracking-tight">学習分析</h1>
+    <div className="pt-[52px] pb-6 space-y-5 animate-fade-in">
+      <h1 className="text-[34px] font-bold text-[#1C1C1E] tracking-tight">分析</h1>
 
+      {/* Key Metrics */}
       <div className="grid grid-cols-2 gap-3">
         {[
           { label: '総復習回数', value: logs.length.toString(), color: '#5856D6' },
@@ -50,24 +51,29 @@ export default function AnalyticsPage() {
           { label: 'レベル', value: `Lv.${stats.level}`, color: '#5856D6' },
         ].map(item => (
           <div key={item.label} className="card p-4 text-center">
-            <p className="text-[22px] font-bold tracking-tight" style={{ color: item.color }}>{item.value}</p>
-            <p className="text-[11px] text-[#8E8E93] mt-0.5">{item.label}</p>
+            <p className="text-[24px] font-bold tracking-tight tabular-nums" style={{ color: item.color }}>{item.value}</p>
+            <p className="text-[12px] text-[#8E8E93] mt-0.5 font-medium">{item.label}</p>
           </div>
         ))}
       </div>
 
-      <div className="card p-5">
-        <h2 className="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-3">学習ヒートマップ</h2>
-        <div className="flex gap-[3px] overflow-x-auto pb-1">
+      {/* Heatmap */}
+      <div className="card px-5 py-5">
+        <p className="section-header mb-4">学習ヒートマップ</p>
+        <div className="flex gap-[3px] overflow-x-auto pb-2">
           {heatmapData.map((week, wi) => (
             <div key={wi} className="flex flex-col gap-[3px]">
               {week.map((day, di) => (
-                <div key={di} className={`w-[14px] h-[14px] rounded-[3px] ${getHeatColor(day.count)}`} title={`${day.date}: ${day.count}回`} />
+                <div
+                  key={di}
+                  className={`w-[13px] h-[13px] rounded-[3px] transition-colors ${getHeatColor(day.count)}`}
+                  title={`${day.date}: ${day.count}回`}
+                />
               ))}
             </div>
           ))}
         </div>
-        <div className="flex items-center gap-1.5 mt-2.5 text-[11px] text-[#AEAEB2]">
+        <div className="flex items-center gap-1.5 mt-3 text-[11px] text-[#AEAEB2]">
           <span>少</span>
           <div className="w-[10px] h-[10px] rounded-[2px] bg-[#E5E5EA]" />
           <div className="w-[10px] h-[10px] rounded-[2px] bg-[#34C759]/30" />
@@ -77,9 +83,10 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="card p-5">
-        <h2 className="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-3">評価分布</h2>
-        <div className="space-y-3">
+      {/* Rating Distribution */}
+      <div className="card px-5 py-5">
+        <p className="section-header mb-4">評価分布</p>
+        <div className="space-y-3.5">
           {[
             { label: '完璧に言えた', count: rd.perfect, color: 'bg-[#34C759]' },
             { label: 'だいたい言えた', count: rd.good, color: 'bg-[#007AFF]' },
@@ -87,9 +94,9 @@ export default function AnalyticsPage() {
             { label: '全然出ない', count: rd.forgot, color: 'bg-[#FF3B30]' },
           ].map(item => (
             <div key={item.label}>
-              <div className="flex justify-between text-[12px] mb-1.5">
-                <span className="text-[#636366]">{item.label}</span>
-                <span className="text-[#8E8E93] font-medium">{item.count}</span>
+              <div className="flex justify-between text-[13px] mb-2">
+                <span className="text-[#1C1C1E] font-medium">{item.label}</span>
+                <span className="text-[#8E8E93] font-semibold tabular-nums">{item.count}</span>
               </div>
               <ProgressBar value={item.count} max={Math.max(logs.length, 1)} color={item.color} />
             </div>
@@ -97,39 +104,41 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      <div className="card p-5">
-        <h2 className="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-4">科目別分析</h2>
-        <div className="space-y-4">
+      {/* Subject Analysis */}
+      <div className="card px-5 py-5">
+        <p className="section-header mb-5">科目別分析</p>
+        <div className="space-y-5">
           {subjectAnalytics.map(s => (
             <div key={s.id}>
-              <div className="flex items-center gap-2 mb-1.5">
-                <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: s.color }} />
-                <span className="text-[14px] font-medium text-[#1C1C1E]">{s.shortName}</span>
-                <span className="text-[12px] text-[#AEAEB2] ml-auto">{s.successRate}%</span>
+              <div className="flex items-center gap-2.5 mb-2">
+                <div className="w-3 h-3 rounded-full" style={{ backgroundColor: s.color }} />
+                <span className="text-[15px] font-medium text-[#1C1C1E]">{s.shortName}</span>
+                <span className="text-[13px] text-[#8E8E93] ml-auto font-semibold tabular-nums">{s.successRate}%</span>
               </div>
               <ProgressBar value={s.total - s.new} max={s.total} />
-              <div className="flex gap-3 text-[11px] text-[#8E8E93] mt-1.5">
-                <span className="text-[#34C759]">習得 {s.mastered}</span>
-                <span className="text-[#FF3B30]">苦手 {s.weak}</span>
-                <span>未学習 {s.new}</span>
+              <div className="flex gap-4 text-[12px] mt-2">
+                <span className="text-[#34C759] font-medium">習得 {s.mastered}</span>
+                <span className="text-[#FF3B30] font-medium">苦手 {s.weak}</span>
+                <span className="text-[#8E8E93]">未学習 {s.new}</span>
               </div>
             </div>
           ))}
         </div>
       </div>
 
+      {/* Weak Topics */}
       {weakTopics.length > 0 && (
-        <div className="card p-5">
-          <h2 className="text-[13px] font-semibold text-[#8E8E93] uppercase tracking-wider mb-3">苦手論点ランキング</h2>
-          <div className="space-y-2.5">
+        <div className="card px-5 py-5">
+          <p className="section-header mb-4">苦手論点ランキング</p>
+          <div className="space-y-3">
             {weakTopics.map((item, i) => {
               const subject = subjects.find(s => s.id === item.topic.subjectId);
               return (
                 <div key={item.topic.id} className="flex items-center gap-3 text-[13px]">
-                  <span className="w-5 h-5 bg-[#FF3B30]/[0.1] text-[#FF3B30] rounded-full flex items-center justify-center text-[11px] font-bold shrink-0">{i + 1}</span>
-                  <span className="flex-1 text-[#1C1C1E] truncate">{item.topic.title}</span>
-                  <span className="text-[11px] px-2 py-0.5 rounded-full text-white shrink-0" style={{ backgroundColor: subject?.color }}>{subject?.shortName}</span>
-                  <span className="text-[12px] text-[#FF3B30] shrink-0 font-medium">{item.forgotCount}</span>
+                  <span className="w-5 h-5 bg-[#FF3B30]/[0.1] text-[#FF3B30] rounded-md flex items-center justify-center text-[11px] font-bold shrink-0">{i + 1}</span>
+                  <span className="flex-1 text-[#1C1C1E] truncate font-medium">{item.topic.title}</span>
+                  <span className="text-[11px] px-2 py-[2px] rounded-md text-white font-bold shrink-0" style={{ backgroundColor: subject?.color }}>{subject?.shortName}</span>
+                  <span className="text-[13px] text-[#FF3B30] shrink-0 font-bold tabular-nums">{item.forgotCount}</span>
                 </div>
               );
             })}
