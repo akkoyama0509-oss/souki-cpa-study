@@ -64,16 +64,16 @@ export default function HomePage() {
           <h2 className="font-bold text-sm text-slate-700 mb-3">今日の修行</h2>
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="bg-indigo-50 rounded-xl p-3">
-              <p className="text-2xl font-bold text-indigo-600">{todayStats.reviewedToday}</p>
-              <p className="text-xs text-slate-500">今日の復習</p>
+              <p className="text-xl font-bold text-indigo-600">{todayStats.reviewedToday}</p>
+              <p className="text-[11px] text-slate-500">今日の復習</p>
             </div>
             <div className="bg-blue-50 rounded-xl p-3">
-              <p className="text-2xl font-bold text-blue-600">{dueItems.length}</p>
-              <p className="text-xs text-slate-500">あと残り</p>
+              <p className="text-xl font-bold text-blue-600">{dueItems.length}</p>
+              <p className="text-[11px] text-slate-500">あと残り</p>
             </div>
             <div className="bg-red-50 rounded-xl p-3">
-              <p className="text-2xl font-bold text-red-500">{todayStats.weakCount}</p>
-              <p className="text-xs text-slate-500">苦手論点</p>
+              <p className="text-xl font-bold text-red-500">{todayStats.weakCount}</p>
+              <p className="text-[11px] text-slate-500">苦手論点</p>
             </div>
           </div>
           <p className="text-xs text-slate-400 text-center mt-2">
@@ -161,16 +161,16 @@ export default function HomePage() {
         <h2 className="font-bold text-sm text-slate-700 mb-2">累計学習データ</h2>
         <div className="grid grid-cols-2 gap-3 text-center">
           <div className="bg-slate-50 rounded-xl p-3">
-            <p className="text-2xl font-bold text-indigo-600">{logs.length}</p>
-            <p className="text-xs text-slate-500">総復習回数</p>
+            <p className="text-xl font-bold text-indigo-600">{logs.length}</p>
+            <p className="text-[11px] text-slate-500">総復習回数</p>
           </div>
           <div className="bg-slate-50 rounded-xl p-3">
-            <p className="text-2xl font-bold text-emerald-600">
+            <p className="text-xl font-bold text-emerald-600">
               {logs.length > 0
                 ? Math.round(logs.filter(l => l.selfRating === 'perfect' || l.selfRating === 'good').length / logs.length * 100)
                 : 0}%
             </p>
-            <p className="text-xs text-slate-500">想起成功率</p>
+            <p className="text-[11px] text-slate-500">想起成功率</p>
           </div>
         </div>
       </div>
@@ -182,9 +182,9 @@ function StatCard({ label, value, icon }: { label: string; value: string; icon: 
   const icons: Record<string, string> = { flame: '🔥', star: '⭐', bell: '🔔' };
   return (
     <div className="bg-white rounded-2xl p-3 text-center shadow-sm border border-slate-100">
-      <p className="text-xl mb-1">{icons[icon]}</p>
-      <p className="text-lg font-bold text-slate-800">{value}</p>
-      <p className="text-xs text-slate-500">{label}</p>
+      <p className="text-sm mb-0.5">{icons[icon]}</p>
+      <p className="text-base font-bold text-slate-800">{value}</p>
+      <p className="text-[11px] text-slate-500">{label}</p>
     </div>
   );
 }

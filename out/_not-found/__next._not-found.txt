@@ -1,4 +1,4 @@
 1:"$Sreact.fragment"
-2:I[39756,["/souki-cpa-study/_next/static/chunks/da34821fdb488771.js","/souki-cpa-study/_next/static/chunks/d2be314c3ece3fbe.js"],"default"]
-3:I[37457,["/souki-cpa-study/_next/static/chunks/da34821fdb488771.js","/souki-cpa-study/_next/static/chunks/d2be314c3ece3fbe.js"],"default"]
-0:{"buildId":"VxjrcTT8uQona-PEa8_nd","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}
+2:I[39756,["/souki-cpa-study/_next/static/chunks/bfe1e148ce119c60.js","/souki-cpa-study/_next/static/chunks/d2be314c3ece3fbe.js"],"default"]
+3:I[37457,["/souki-cpa-study/_next/static/chunks/bfe1e148ce119c60.js","/souki-cpa-study/_next/static/chunks/d2be314c3ece3fbe.js"],"default"]
+0:{"buildId":"bUO3jTnczYAH1GTVhVo6e","rsc":["$","$1","c",{"children":[null,["$","$L2",null,{"parallelRouterKey":"children","template":["$","$L3",null,{}]}]]}],"loading":null,"isPartial":false}

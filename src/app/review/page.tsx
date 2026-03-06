@@ -106,7 +106,7 @@ export default function ReviewPage() {
         })}
         {displayTopics.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-4xl mb-3">{tab === 'due' ? '🎉' : '📚'}</p>
+            <p className="text-2xl mb-2">{tab === 'due' ? '🎉' : '📚'}</p>
             <p className="text-sm text-slate-500">
               {tab === 'due' ? '今日の復習はすべて完了しました！' : tab === 'weak' ? '苦手な論点はありません！' : ''}
             </p>

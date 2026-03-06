@@ -105,7 +105,7 @@ function RecallContent() {
     return (
       <div className="py-6 space-y-4 text-center">
         <div className="bg-white rounded-2xl p-8 shadow-sm border border-slate-100">
-          <p className="text-4xl mb-4">🎉</p>
+          <p className="text-2xl mb-3">🎉</p>
           <h2 className="text-xl font-bold text-slate-800 mb-2">復習待ちの論点がありません</h2>
           <p className="text-sm text-slate-500 mb-6">科目一覧から新しい論点を学習しましょう</p>
           <Link
@@ -140,7 +140,7 @@ function RecallContent() {
     return (
       <div className="py-6 space-y-4">
         <div className="bg-white rounded-2xl p-6 shadow-sm border border-slate-100 text-center animate-slide-up">
-          <p className="text-4xl mb-4">🏆</p>
+          <p className="text-2xl mb-3">🏆</p>
           <h2 className="text-xl font-bold text-slate-800 mb-2">セッション完了！</h2>
 
           {/* Today's total */}
@@ -256,7 +256,7 @@ function RecallContent() {
           </div>
           {phase === 'thinking' && (
             <>
-              <p className="text-2xl font-mono font-bold text-indigo-500 mt-4">
+              <p className="text-xl font-mono font-bold text-indigo-500 mt-4">
                 {Math.floor(elapsedSec / 60).toString().padStart(2, '0')}:{(elapsedSec % 60).toString().padStart(2, '0')}
               </p>
 

@@ -12,7 +12,7 @@ export default function CharacterBubble({ character, message }: CharacterBubbleP
     <div className={`flex items-start gap-3 p-4 rounded-2xl animate-fade-in ${
       isGabu ? 'bg-amber-50 border border-amber-100' : 'bg-slate-50 border border-slate-200'
     }`}>
-      <div className={`shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-lg font-bold ${
+      <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold ${
         isGabu ? 'bg-amber-400 text-white' : 'bg-slate-700 text-white'
       }`}>
         {isGabu ? 'G' : 'K'}

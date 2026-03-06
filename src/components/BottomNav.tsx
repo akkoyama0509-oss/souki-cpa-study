@@ -15,20 +15,33 @@ export default function BottomNav() {
   const pathname = usePathname();
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-slate-200 pb-[env(safe-area-inset-bottom)]">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-sm border-t border-slate-200 pb-[env(safe-area-inset-bottom)]">
       <div className="max-w-lg mx-auto flex justify-around">
         {navItems.map(item => {
           const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href));
+          const isRecall = item.href === '/recall';
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex flex-col items-center py-2 px-3 text-xs transition-colors ${
-                isActive ? 'text-indigo-600' : 'text-slate-400 hover:text-slate-600'
+              className={`flex flex-col items-center py-2 px-3 text-[10px] font-medium transition-colors ${
+                isRecall && !isActive
+                  ? 'text-indigo-400'
+                  : isActive
+                    ? 'text-indigo-600'
+                    : 'text-slate-400 hover:text-slate-600'
               }`}
             >
-              <item.icon active={isActive} />
-              <span className="mt-1">{item.label}</span>
+              {isRecall ? (
+                <div className={`w-10 h-10 -mt-4 rounded-full flex items-center justify-center shadow-md ${
+                  isActive ? 'bg-indigo-600 text-white' : 'bg-indigo-500 text-white'
+                }`}>
+                  <item.icon active={isActive} />
+                </div>
+              ) : (
+                <item.icon active={isActive} />
+              )}
+              <span className={isRecall ? 'mt-0.5' : 'mt-1'}>{item.label}</span>
             </Link>
           );
         })}
@@ -55,7 +68,7 @@ function BookIcon({ active }: { active: boolean }) {
 
 function BrainIcon({ active }: { active: boolean }) {
   return (
-    <svg className="w-6 h-6" fill={active ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={active ? 0 : 1.5}>
+    <svg className="w-5 h-5" fill={active ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24" strokeWidth={active ? 0 : 1.5}>
       <path strokeLinecap="round" strokeLinejoin="round" d="M9.813 15.904L9 18.75l-.813-2.846a4.5 4.5 0 00-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 003.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 003.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 00-3.09 3.09zM18.259 8.715L18 9.75l-.259-1.035a3.375 3.375 0 00-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 002.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 002.455 2.456L21.75 6l-1.036.259a3.375 3.375 0 00-2.455 2.456zM16.894 20.567L16.5 21.75l-.394-1.183a2.25 2.25 0 00-1.423-1.423L13.5 18.75l1.183-.394a2.25 2.25 0 001.423-1.423l.394-1.183.394 1.183a2.25 2.25 0 001.423 1.423l1.183.394-1.183.394a2.25 2.25 0 00-1.423 1.423z" />
     </svg>
   );

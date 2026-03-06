@@ -1,0 +1,22 @@
+{
+  "name": "ソウキ - 公認会計士論文式想起学習",
+  "short_name": "ソウキ",
+  "description": "想起で鍛える論文式対策アプリ",
+  "start_url": "/souki-cpa-study/",
+  "scope": "/souki-cpa-study/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#6366F1",
+  "icons": [
+    {
+      "src": "/souki-cpa-study/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/souki-cpa-study/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

@@ -189,8 +189,8 @@ export default function AnalyticsPage() {
 function AnalyticsCard({ label, value }: { label: string; value: string }) {
   return (
     <div className="bg-white rounded-2xl p-4 shadow-sm border border-slate-100 text-center">
-      <p className="text-2xl font-bold text-indigo-600">{value}</p>
-      <p className="text-xs text-slate-500 mt-1">{label}</p>
+      <p className="text-xl font-bold text-indigo-600">{value}</p>
+      <p className="text-[11px] text-slate-500 mt-1">{label}</p>
     </div>
   );
 }
